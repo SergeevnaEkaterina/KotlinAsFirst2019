@@ -3,8 +3,8 @@
 package lesson2.task1
 
 import lesson1.task1.discriminant
-import kotlin.math.max
-import kotlin.math.sqrt
+import lesson1.task1.sqr
+import kotlin.math.*
 
 /**
  * Пример
@@ -63,40 +63,24 @@ fun minBiRoot(a: Double, b: Double, c: Double): Double {
  * Мой возраст. Для заданного 0 < n < 200, рассматриваемого как возраст человека,
  * вернуть строку вида: «21 год», «32 года», «12 лет».
  */
-fun ageDescription(age: Int): String {
-    if (age % 100 == 11) {
-        return "$age лет"
-    }
-    if (age % 10 == 1) {
-        return "$age год"
-    }
-    if (age % 10 == 2) {
-        return  "$age года"
-    }
-    if (age % 10 == 3) {
-        return  "$age года"
-    }
-    if (age % 10 == 4) {
-        return  "$age года"
-    }
-    if (age % 10 == 5) {
-        return  "$age лет"
-    }
-    if (age % 10 == 6) {
-        return  "$age лет"
-    }
-    if (age % 10 == 7) {
-        return  "$age лет"
-    }
-    if (age % 10 == 8) {
-        return  "$age лет"
-    }
-    if (age % 10 == 9) {
-        return  "$age лет"
-    }
-    if (age % 10 == 0) {
-        return  "$age лет"
-    }
+fun ageDescription(age: Int): String = when {
+
+
+    age == 11 || age == 111 -> "$age лет"
+    age in 5..20 -> "$age лет"
+
+
+    age % 10 == 1 && age != 11 && age != 111 -> "$age год"
+    age % 10 == 2 -> "$age года"
+    age % 10 == 3 -> "$age года"
+    age % 10 == 4 -> "$age года"
+    age % 10 == 5 -> "$age лет"
+    age % 10 == 6 -> "$age лет"
+    age % 10 == 7 -> "$age лет"
+    age % 10 == 8 -> "$age лет"
+    age % 10 == 9 -> "$age лет"
+    age % 10 == 0 -> "$age лет"
+    else -> "$age не существует"
 
 }
 
@@ -112,7 +96,18 @@ fun timeForHalfWay(
     t1: Double, v1: Double,
     t2: Double, v2: Double,
     t3: Double, v3: Double
-): Double = TODO()
+): Double {
+    val s1 = v1 * t1
+    val s2 = v2 * t2
+    val s3 = v3 * t3
+    val halfWay = (s1 + s2 + s3) / 2
+    return when {
+        halfWay <= s1 -> halfWay / v1
+        halfWay > s1 && halfWay <= s1 + s2 -> t1 + (halfWay - s1) / v2
+        halfWay > s2 -> t1 + t2 + (halfWay - s1 - s2) / v3
+        else -> 0.0
+    }
+}
 
 /**
  * Простая
@@ -127,7 +122,13 @@ fun whichRookThreatens(
     kingX: Int, kingY: Int,
     rookX1: Int, rookY1: Int,
     rookX2: Int, rookY2: Int
-): Int = TODO()
+): Int = when {
+    (rookX1 == kingX || rookY1 == kingY) && (rookX2 == kingX || rookY2 == kingY) -> 3
+    rookX1 == kingX || rookY1 == kingY -> 1
+    rookX2 == kingX || rookY2 == kingY -> 2
+
+    else -> 0
+}
 
 /**
  * Простая
@@ -143,7 +144,12 @@ fun rookOrBishopThreatens(
     kingX: Int, kingY: Int,
     rookX: Int, rookY: Int,
     bishopX: Int, bishopY: Int
-): Int = TODO()
+): Int = when {
+    (rookX == kingX || rookY == kingY)&&(kingX - bishopX == kingY - bishopY) -> 3
+    rookX == kingX || rookY == kingY -> 1
+    abs(kingX - bishopX) == abs(kingY - bishopY) -> 2
+    else -> 0
+}
 
 /**
  * Простая
@@ -153,7 +159,18 @@ fun rookOrBishopThreatens(
  * прямоугольным (вернуть 1) или тупоугольным (вернуть 2).
  * Если такой треугольник не существует, вернуть -1.
  */
-fun triangleKind(a: Double, b: Double, c: Double): Int = TODO()
+fun triangleKind(a: Double, b: Double, c: Double): Int {
+    val cosinusA = (sqr(c) + sqr(b) - sqr(a)) / (2 * b * c)
+    val cosinusB = (sqr(a) + sqr(c) - sqr(b)) / (2 * a * c)
+    val cosinusC = (sqr(a) + sqr(b) - sqr(c)) / (2 * a * b)
+    return when {
+        a >= b + c || b >= a + c || c >= a + b -> -1
+        cosinusA == 0.0 || cosinusB == 0.0 || cosinusC == 0.0 -> 1
+        cosinusA in -1.0..0.0 || cosinusB in -1.0..0.0 || cosinusC in -1.0..0.0 -> 2
+        else -> 0
+    }
+}
+
 
 /**
  * Средняя
@@ -163,4 +180,11 @@ fun triangleKind(a: Double, b: Double, c: Double): Int = TODO()
  * Найти длину пересечения отрезков AB и CD.
  * Если пересечения нет, вернуть -1.
  */
-fun segmentLength(a: Int, b: Int, c: Int, d: Int): Int = TODO()
+fun segmentLength(a: Int, b: Int, c: Int, d: Int): Int {
+    if (b > c && d > a && b - c < d - a && d > b) return (b - c)
+    if (d > a && b > c && d - a < b - c && b > d) return (d - a)
+    if (b > d && c > a && d - c < b - a && b > c) return (d - c)
+    if (d > b && a > c && b - a < d - c && d > a) return (b - a)
+    if (b == c || a == d) return 0
+    else return -1
+}
