@@ -2,6 +2,8 @@
 
 package lesson3.task1
 
+import java.lang.StrictMath.min
+import kotlin.math.max
 import kotlin.math.sqrt
 
 /**
@@ -67,7 +69,18 @@ fun digitCountInNumber(n: Int, m: Int): Int =
  *
  * Использовать операции со строками в этой задаче запрещается.
  */
-fun digitNumber(n: Int): Int = TODO()
+fun digitNumber(n: Int): Int {
+    var count = 0
+    var number = n
+    if (n == 0) return 1
+    while (number > 0) {
+
+        count++
+
+        number /= 10
+    }
+    return count
+}
 
 /**
  * Простая
@@ -75,7 +88,12 @@ fun digitNumber(n: Int): Int = TODO()
  * Найти число Фибоначчи из ряда 1, 1, 2, 3, 5, 8, 13, 21, ... с номером n.
  * Ряд Фибоначчи определён следующим образом: fib(1) = 1, fib(2) = 1, fib(n+2) = fib(n) + fib(n+1)
  */
-fun fib(n: Int): Int = TODO()
+fun fib(n: Int): Int {
+    if (n == 0) return 0
+    if (n == 1) return 1
+    return fib(n - 2) + fib(n - 1)
+}
+
 
 /**
  * Простая
@@ -83,21 +101,47 @@ fun fib(n: Int): Int = TODO()
  * Для заданных чисел m и n найти наименьшее общее кратное, то есть,
  * минимальное число k, которое делится и на m и на n без остатка
  */
-fun lcm(m: Int, n: Int): Int = TODO()
+fun lcm(m: Int, n: Int): Int {
+    var nok = 1
+    for (i in n * m downTo max(m, n)) {
+        if (i % n == 0 && i % m == 0)
+            nok = i
+
+    }
+    return nok
+
+}
 
 /**
  * Простая
  *
  * Для заданного числа n > 1 найти минимальный делитель, превышающий 1
  */
-fun minDivisor(n: Int): Int = TODO()
+fun minDivisor(n: Int): Int {
+    val m = 2
+    for (m in 2..n) {
+        if (n % m == 0)
+            return m
+    }
+
+    return m
+}
 
 /**
  * Простая
  *
  * Для заданного числа n > 1 найти максимальный делитель, меньший n
  */
-fun maxDivisor(n: Int): Int = TODO()
+fun maxDivisor(n: Int): Int {
+    var m = 1
+    for (m in n downTo 2) {
+
+        if (n % m == 0 && m < n)
+            return m
+    }
+
+    return m
+}
 
 /**
  * Простая
@@ -106,7 +150,16 @@ fun maxDivisor(n: Int): Int = TODO()
  * Взаимно простые числа не имеют общих делителей, кроме 1.
  * Например, 25 и 49 взаимно простые, а 6 и 8 -- нет.
  */
-fun isCoPrime(m: Int, n: Int): Boolean = TODO()
+fun isCoPrime(m: Int, n: Int): Boolean {
+    var nod = 1
+    for (i in 1..max(m, n)) {
+        if (n % i == 0 && m % i == 0)
+            nod = i
+
+    }
+    return nod == 1
+
+}
 
 /**
  * Простая
@@ -115,7 +168,9 @@ fun isCoPrime(m: Int, n: Int): Boolean = TODO()
  * то есть, существует ли такое целое k, что m <= k*k <= n.
  * Например, для интервала 21..28 21 <= 5*5 <= 28, а для интервала 51..61 квадрата не существует.
  */
+
 fun squareBetweenExists(m: Int, n: Int): Boolean = TODO()
+
 
 /**
  * Средняя
@@ -134,6 +189,7 @@ fun squareBetweenExists(m: Int, n: Int): Boolean = TODO()
  * этого для какого-либо начального X > 0.
  */
 fun collatzSteps(x: Int): Int = TODO()
+
 
 /**
  * Средняя
@@ -205,6 +261,6 @@ fun squareSequenceDigit(n: Int): Int = TODO()
  * 1123581321345589144...
  * Например, 2-я цифра равна 1, 9-я 2, 14-я 5.
  *
- * Использовать операции со строками в этой задаче запрещается.
- */
+ * Использовать операции со строками в этой задаче запрещается.*/
+
 fun fibSequenceDigit(n: Int): Int = TODO()
