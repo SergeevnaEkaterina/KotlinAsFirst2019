@@ -68,8 +68,6 @@ fun ageDescription(age: Int): String = when {
 
     age == 11 || age == 111 -> "$age лет"
     age in 5..20 -> "$age лет"
-
-
     age % 10 == 1 && age != 11 && age != 111 -> "$age год"
     age % 10 == 2 -> "$age года"
     age % 10 == 3 -> "$age года"
@@ -126,7 +124,6 @@ fun whichRookThreatens(
     (rookX1 == kingX || rookY1 == kingY) && (rookX2 == kingX || rookY2 == kingY) -> 3
     rookX1 == kingX || rookY1 == kingY -> 1
     rookX2 == kingX || rookY2 == kingY -> 2
-
     else -> 0
 }
 
@@ -144,8 +141,9 @@ fun rookOrBishopThreatens(
     kingX: Int, kingY: Int,
     rookX: Int, rookY: Int,
     bishopX: Int, bishopY: Int
-): Int = when {
-    (rookX == kingX || rookY == kingY)&&(kingX - bishopX == kingY - bishopY) -> 3
+):
+        Int = when {
+    (rookX == kingX || rookY == kingY) && (kingX - bishopX == kingY - bishopY) -> 3
     rookX == kingX || rookY == kingY -> 1
     abs(kingX - bishopX) == abs(kingY - bishopY) -> 2
     else -> 0
@@ -185,6 +183,6 @@ fun segmentLength(a: Int, b: Int, c: Int, d: Int): Int {
     if (d > a && b > c && d - a < b - c && b > d) return (d - a)
     if (b > d && c > a && d - c < b - a && b > c) return (d - c)
     if (d > b && a > c && b - a < d - c && d > a) return (b - a)
-    if (b == c || a == d) return 0
-    else return -1
+    return if (b == c || a == d) 0
+    else -1
 }
