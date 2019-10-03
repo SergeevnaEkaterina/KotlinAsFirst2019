@@ -133,7 +133,7 @@ fun minDivisor(n: Int): Int {
  * Для заданного числа n > 1 найти максимальный делитель, меньший n
  */
 fun maxDivisor(n: Int): Int {
-    var m = 1
+    val m = 1
     for (m in n downTo 2) {
 
         if (n % m == 0 && m < n)
