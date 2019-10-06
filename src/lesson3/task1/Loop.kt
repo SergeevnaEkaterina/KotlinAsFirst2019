@@ -2,7 +2,9 @@
 
 package lesson3.task1
 
+import lesson1.task1.sqr
 import java.lang.StrictMath.min
+import java.lang.StrictMath.pow
 import kotlin.math.max
 import kotlin.math.sqrt
 
@@ -89,9 +91,21 @@ fun digitNumber(n: Int): Int {
  * Ряд Фибоначчи определён следующим образом: fib(1) = 1, fib(2) = 1, fib(n+2) = fib(n) + fib(n+1)
  */
 fun fib(n: Int): Int {
+
+    var fibsum = 0
+    var fib1 = 1
+    var fib2 = 1
     if (n == 0) return 0
     if (n == 1) return 1
-    return fib(n - 2) + fib(n - 1)
+
+    for (i in 1..n - 2) {
+        fibsum = fib1 + fib2
+        fib1 = fib2
+        fib2 = fibsum
+
+    }
+    return fib2
+
 }
 
 
@@ -102,13 +116,20 @@ fun fib(n: Int): Int {
  * минимальное число k, которое делится и на m и на n без остатка
  */
 fun lcm(m: Int, n: Int): Int {
-    var nok = 1
-    for (i in n * m downTo max(m, n)) {
-        if (i % n == 0 && i % m == 0)
-            nok = i
+    var a = m
+    var b = n
+    var f = m
+    while (a != b && a > 0 && b > 0) {
+
+        if (a > b)
+            a %= b
+        else
+            b %= a
+
+        f = m * n / (a + b)
 
     }
-    return nok
+    return f
 
 }
 
@@ -119,13 +140,17 @@ fun lcm(m: Int, n: Int): Int {
  */
 fun minDivisor(n: Int): Int {
     val m = 2
-    for (m in 2..n) {
-        if (n % m == 0)
-            return m
+    if (n % 2 == 0) {
+        return 2
+    } else {
+        for (m in 3..n step 2) {
+            if (n % m == 0)
+                return m
+        }
     }
-
     return m
 }
+
 
 /**
  * Простая
@@ -133,8 +158,9 @@ fun minDivisor(n: Int): Int {
  * Для заданного числа n > 1 найти максимальный делитель, меньший n
  */
 fun maxDivisor(n: Int): Int {
+
     val m = 0
-    for (m in n downTo 2) {
+    for (m in n - 1 downTo 1) {
 
         if (n % m == 0 && m < n)
             return m
@@ -261,6 +287,8 @@ fun squareSequenceDigit(n: Int): Int = TODO()
  * 1123581321345589144...
  * Например, 2-я цифра равна 1, 9-я 2, 14-я 5.
  *
- * Использовать операции со строками в этой задаче запрещается.*/
+ * Использовать операции со строками в этой задаче запрещается.
+ * */
 
 fun fibSequenceDigit(n: Int): Int = TODO()
+
