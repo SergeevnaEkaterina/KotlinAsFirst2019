@@ -2,6 +2,7 @@
 
 package lesson1.task1
 
+import java.lang.Math.pow
 import kotlin.math.*
 
 /**
@@ -69,7 +70,7 @@ fun seconds(hours: Int, minutes: Int, seconds: Int): Int = hours * 3600 + minute
  * 1 сажень = 3 аршина = 48 вершков, 1 вершок = 4.445 см.
  */
 fun lengthInMeters(sagenes: Int, arshins: Int, vershoks: Int): Double =
-    0.04445 * (sagenes * 0.48 + arshins * 0.16 + vershoks)
+    0.04445 * (sagenes * 48 + arshins * 16 + vershoks)
 
 /**
  * Тривиальная
@@ -77,7 +78,7 @@ fun lengthInMeters(sagenes: Int, arshins: Int, vershoks: Int): Double =
  * Пользователь задает угол в градусах, минутах и секундах (например, 36 градусов 14 минут 35 секунд).
  * Вывести значение того же угла в радианах (например, 0.63256).
  */
-fun angleInRadian(deg: Int, min: Int, sec: Int): Double = PI / 18 * (0.1 + 1 / 600 + 1 / 36000)
+fun angleInRadian(deg: Int, min: Int, sec: Int): Double = PI / 18 * (deg * 1 / 10 + min * 1 / 600 + sec * 1 / 36000)
 
 
 /**
@@ -120,7 +121,7 @@ fun travelMinutes(hoursDepart: Int, minutesDepart: Int, hoursArrive: Int, minute
  */
 fun accountInThreeYears(initial: Int, percent: Int): Double {
     val upperCoefficient = 1 + percent / 100.0
-    return initial * sqr(upperCoefficient)
+    return initial * upperCoefficient.pow(3)
 }
 
 /**
