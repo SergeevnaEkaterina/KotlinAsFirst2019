@@ -32,7 +32,8 @@ fun isNumberHappy(number: Int): Boolean = number / 1000 + (number / 100) % 10 ==
  * Определить, угрожают ли они друг другу. Вернуть true, если угрожают.
  * Считать, что ферзи не могут загораживать друг друга.
  */
-fun queenThreatens(x1: Int, y1: Int, x2: Int, y2: Int): Boolean = x1 == x2 || y1 == y2 || abs(y1 - x1) == abs(y2 - x2)
+fun queenThreatens(x1: Int, y1: Int, x2: Int, y2: Int): Boolean =
+    x1 == x2 || y1 == y2 || abs(y1 - x1) == abs(y2 - x2) || x1 == y1
 
 
 /**
@@ -56,6 +57,7 @@ fun daysInMonth(month: Int, year: Int): Int = when {
     month == 11 -> 30
     month == 12 -> 31
     else -> 5
+
 }
 
 /**
@@ -81,15 +83,12 @@ fun circleInside(
  * Вернуть true, если кирпич пройдёт
  */
 fun brickPasses(a: Int, b: Int, c: Int, r: Int, s: Int): Boolean {
-    val maxAb = max(a, b)
-    val maxBc = max(b, c)
-    val maxBrick = max(maxAb, maxBc)
-    val minAb = min(a, b)
-    val minBc = min(b, c)
-    val minBrick = min(minAb, minBc)
+
+    val maxBrick = maxOf(a, b, c)
+    val minBrick = minOf(a, b, c)
     val averageBrick = a + b + c - minBrick - maxBrick
     val maxHole = max(r, s)
     val minHole = min(r, s)
-    return minBrick <= minHole && (maxBrick <= maxHole || averageBrick <= maxHole)
+    return minBrick <= minHole && (averageBrick <= maxHole)
 
 }

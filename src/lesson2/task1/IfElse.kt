@@ -66,14 +66,7 @@ fun minBiRoot(a: Double, b: Double, c: Double): Double {
 fun ageDescription(age: Int): String = when {
     age % 100 in 11..20 -> "$age лет"
     age % 10 == 1 -> "$age год"
-    age % 10 == 2 -> "$age года"
-    age % 10 == 3 -> "$age года"
-    age % 10 == 4 -> "$age года"
-    age % 10 == 5 -> "$age лет"
-    age % 10 == 6 -> "$age лет"
-    age % 10 == 7 -> "$age лет"
-    age % 10 == 8 -> "$age лет"
-    age % 10 == 9 -> "$age лет"
+    age % 10 in 2..4 -> "$age года"
     else -> "$age лет"
 
 
@@ -154,13 +147,13 @@ fun rookOrBishopThreatens(
  * Если такой треугольник не существует, вернуть -1.
  */
 fun triangleKind(a: Double, b: Double, c: Double): Int {
-    val cosinusA = (sqr(c) + sqr(b) - sqr(a))
-    val cosinusB = (sqr(a) + sqr(c) - sqr(b))
-    val cosinusC = (sqr(a) + sqr(b) - sqr(c))
+    val max = maxOf(a, b, c)
+    val min = minOf(a, b, c)
+    val cosinesMax = (sqr(min) + sqr(a + b + c - min) - sqr(max))
     return when {
-        a >= b + c || b >= a + c || c >= a + b -> -1
-        cosinusA == 0.0 || cosinusB == 0.0 || cosinusC == 0.0 -> 1
-        cosinusA < 0 || cosinusB < 0 || cosinusC < 0 -> 2
+        max >= a + b + c - max -> -1
+        cosinesMax == 0.0 -> 1
+        cosinesMax < 0.0 -> 2
         else -> 0
     }
 }
@@ -174,14 +167,15 @@ fun triangleKind(a: Double, b: Double, c: Double): Int {
  * Найти длину пересечения отрезков AB и CD.
  * Если пересечения нет, вернуть -1.
  */
-fun segmentLength(a: Int, b: Int, c: Int, d: Int): Int {
-    if (a == c && b == d) return (b - a)
-    if (c == d && a == b) return (a - c)
-    if (b > c && d > a && b - c < d - a && d > b) return (b - c)
-    if (d > a && b > c && d - a < b - c && b > d) return (d - a)
-    if (b > d && c > a && d - c < b - a && b > c) return (d - c)
-    if (d > b && a > c && b - a < d - c && d > a) return (b - a)
-    return if (b == c || a == d || a == b || c == d) 0
-    else -1
+fun segmentLength(a: Int, b: Int, c: Int, d: Int): Int = when {
+    a == c && b == d -> b - a
+    c == d && a == b -> a - c
+    b > d && c > a && b > c -> d - c
+    d > b && a > c && d > a -> b - a
+    b > c && d > a && d > b -> b - c
+    d > a && b > c && b > d -> d - a
+
+    b == c || a == d || a == b || c == d -> 0
+    else -> -1
 
 }
