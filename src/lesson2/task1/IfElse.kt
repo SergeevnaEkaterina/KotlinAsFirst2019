@@ -149,7 +149,8 @@ fun rookOrBishopThreatens(
 fun triangleKind(a: Double, b: Double, c: Double): Int {
     val max = maxOf(a, b, c)
     val min = minOf(a, b, c)
-    val cosinesMax = (sqr(min) + sqr(a + b + c - min) - sqr(max))
+    val average = a + b + c - min - max
+    val cosinesMax = (sqr(min) + sqr(average) - sqr(max))
     return when {
         max >= a + b + c - max -> -1
         cosinesMax == 0.0 -> 1
@@ -168,14 +169,13 @@ fun triangleKind(a: Double, b: Double, c: Double): Int {
  * Если пересечения нет, вернуть -1.
  */
 fun segmentLength(a: Int, b: Int, c: Int, d: Int): Int = when {
-    a == c && b == d -> b - a
-    c == d && a == b -> a - c
-    b > d && c > a && b > c -> d - c
-    d > b && a > c && d > a -> b - a
-    b > c && d > a && d > b -> b - c
-    d > a && b > c && b > d -> d - a
 
-    b == c || a == d || a == b || c == d -> 0
+    c == d && a == b -> a - c
+    b > d && c > a && b >= c -> d - c
+    d >= b && a >= c && d >= a -> b - a
+    b >= c && d >= a && d > b -> b - c
+    d >= a && b >= c && b > d -> d - a
+
     else -> -1
 
 }

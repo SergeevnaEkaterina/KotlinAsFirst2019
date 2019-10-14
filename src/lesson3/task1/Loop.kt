@@ -3,9 +3,7 @@
 package lesson3.task1
 
 import lesson1.task1.sqr
-import java.lang.StrictMath.min
-import java.lang.StrictMath.pow
-import kotlin.math.max
+import kotlin.math.pow
 import kotlin.math.sqrt
 
 /**
@@ -115,23 +113,19 @@ fun fib(n: Int): Int {
  * Для заданных чисел m и n найти наименьшее общее кратное, то есть,
  * минимальное число k, которое делится и на m и на n без остатка
  */
-fun lcm(m: Int, n: Int): Int {
+fun nod(m: Int, n: Int): Int {
     var a = m
     var b = n
-    var f = m
     while (a != b && a > 0 && b > 0) {
-
         if (a > b)
-            a %= b
+            a -= b
         else
-            b %= a
-
-        f = m * n / (a + b)
-
+            b -= a
     }
-    return f
-
+    return b
 }
+
+fun lcm(m: Int, n: Int): Int = m * n / nod(m, n)
 
 /**
  * Простая
@@ -139,35 +133,21 @@ fun lcm(m: Int, n: Int): Int {
  * Для заданного числа n > 1 найти минимальный делитель, превышающий 1
  */
 fun minDivisor(n: Int): Int {
-    val m = 2
-    if (n % 2 == 0) {
-        return 2
-    } else {
-        for (m in 3..n step 2) {
-            if (n % m == 0)
-                return m
-        }
+    if (n < 2) return n
+    if (n == 2) return n
+    if (n % 2 == 0) return 2
+    for (m in 3..sqrt(n.toDouble()).toInt() step 2) {
+        if (n % m == 0) return m
     }
-    return m
+    return n
 }
-
 
 /**
  * Простая
  *
  * Для заданного числа n > 1 найти максимальный делитель, меньший n
  */
-fun maxDivisor(n: Int): Int {
-
-    val m = 0
-    for (m in n - 1 downTo 1) {
-
-        if (n % m == 0 && m < n)
-            return m
-    }
-
-    return m
-}
+fun maxDivisor(n: Int): Int = n / minDivisor(n)
 
 /**
  * Простая
@@ -176,16 +156,7 @@ fun maxDivisor(n: Int): Int {
  * Взаимно простые числа не имеют общих делителей, кроме 1.
  * Например, 25 и 49 взаимно простые, а 6 и 8 -- нет.
  */
-fun isCoPrime(m: Int, n: Int): Boolean {
-    var nod = 1
-    for (i in 1..max(m, n)) {
-        if (n % i == 0 && m % i == 0)
-            nod = i
-
-    }
-    return nod == 1
-
-}
+fun isCoPrime(m: Int, n: Int): Boolean = nod(m, n) == 1
 
 /**
  * Простая
@@ -278,7 +249,19 @@ fun hasDifferentDigits(n: Int): Boolean = TODO()
  *
  * Использовать операции со строками в этой задаче запрещается.
  */
-fun squareSequenceDigit(n: Int): Int = TODO()
+
+fun squareSequenceDigit(n: Int): Int {
+    var length = 0
+    var k = 1
+    for (i in 1..n)
+        if (length < n) {
+            length += digitNumber(sqr(k))
+            k += 1
+        }
+    val lengthDifference = length - n
+    k -= 1
+    return (sqr(k) / 10.0.pow(lengthDifference)).toInt() % 10
+}
 
 /**
  * Сложная
