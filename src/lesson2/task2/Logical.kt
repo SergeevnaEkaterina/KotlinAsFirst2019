@@ -80,5 +80,4 @@ fun brickPasses(a: Int, b: Int, c: Int, r: Int, s: Int): Boolean {
     val maxHole = max(r, s)
     val minHole = min(r, s)
     return minBrick <= minHole && (averageBrick <= maxHole)
-
 }
