@@ -125,6 +125,7 @@ fun nod(m: Int, n: Int): Int {
     return (a + b)
 }
 
+
 fun lcm(m: Int, n: Int): Int = (m / nod(m, n)) * n
 
 /**
