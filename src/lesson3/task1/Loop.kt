@@ -116,16 +116,16 @@ fun fib(n: Int): Int {
 fun nod(m: Int, n: Int): Int {
     var a = m
     var b = n
-    while (a != b && a > 0 && b > 0) {
+    while (a != 0 && b != 0) {
         if (a > b)
-            a -= b
+            a %= b
         else
-            b -= a
+            b %= a
     }
-    return b
+    return (a + b)
 }
 
-fun lcm(m: Int, n: Int): Int = m * n / nod(m, n)
+fun lcm(m: Int, n: Int): Int = (m / nod(m, n)) * n
 
 /**
  * Простая
@@ -133,8 +133,6 @@ fun lcm(m: Int, n: Int): Int = m * n / nod(m, n)
  * Для заданного числа n > 1 найти минимальный делитель, превышающий 1
  */
 fun minDivisor(n: Int): Int {
-    if (n < 2) return n
-    if (n == 2) return n
     if (n % 2 == 0) return 2
     for (m in 3..sqrt(n.toDouble()).toInt() step 2) {
         if (n % m == 0) return m
@@ -253,11 +251,11 @@ fun hasDifferentDigits(n: Int): Boolean = TODO()
 fun squareSequenceDigit(n: Int): Int {
     var length = 0
     var k = 1
-    for (i in 1..n)
-        if (length < n) {
-            length += digitNumber(sqr(k))
-            k += 1
-        }
+
+    while (length < n) {
+        length += digitNumber(sqr(k))
+        k = k + 1
+    }
     val lengthDifference = length - n
     k -= 1
     return (sqr(k) / 10.0.pow(lengthDifference)).toInt() % 10

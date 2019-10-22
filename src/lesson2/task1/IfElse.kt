@@ -152,7 +152,7 @@ fun triangleKind(a: Double, b: Double, c: Double): Int {
     val average = a + b + c - min - max
     val cosinesMax = (sqr(min) + sqr(average) - sqr(max))
     return when {
-        max >= a + b + c - max -> -1
+        max >= min + average -> -1
         cosinesMax == 0.0 -> 1
         cosinesMax < 0.0 -> 2
         else -> 0
@@ -170,7 +170,7 @@ fun triangleKind(a: Double, b: Double, c: Double): Int {
  */
 fun segmentLength(a: Int, b: Int, c: Int, d: Int): Int = when {
 
-    c == d && a == b -> a - c
+    c == d && a == b && a == c -> a - c
     b > d && c > a && b >= c -> d - c
     d >= b && a >= c && d >= a -> b - a
     b >= c && d >= a && d > b -> b - c
