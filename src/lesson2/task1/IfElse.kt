@@ -156,6 +156,7 @@ fun triangleKind(a: Double, b: Double, c: Double): Int {
         cosinesMax == 0.0 -> 1
         cosinesMax < 0.0 -> 2
         else -> 0
+
     }
 }
 
