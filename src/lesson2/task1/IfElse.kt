@@ -175,7 +175,7 @@ fun segmentLength(a: Int, b: Int, c: Int, d: Int): Int = when {
     b == c || d == a -> 0
 
 
-    b > c && d > b || d > a && b > d -> min(b, d) - max(a, c)
+    else -> min(b, d) - max(a, c)
 
-else -> 2
+
 }
