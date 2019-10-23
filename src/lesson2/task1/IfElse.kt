@@ -171,7 +171,7 @@ fun triangleKind(a: Double, b: Double, c: Double): Int {
  */
 fun segmentLength(a: Int, b: Int, c: Int, d: Int): Int = when {
 
-    c == d && a == b && a == c -> a - c
+
     b > d && c > a && b >= c -> d - c
     d >= b && a >= c && d >= a -> b - a
     b >= c && d >= a && d > b -> b - c
