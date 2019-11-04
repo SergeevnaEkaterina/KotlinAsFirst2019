@@ -273,5 +273,16 @@ fun squareSequenceDigit(n: Int): Int {
  * Использовать операции со строками в этой задаче запрещается.
  * */
 
-fun fibSequenceDigit(n: Int): Int = TODO()
+fun fibSequenceDigit(n: Int): Int {
+    var length = 0
+    var k = 1
+
+    while (length < n) {
+        length += digitNumber(fib(k))
+        k = k + 1
+    }
+    val lengthDifference = length - n
+    k -= 1
+    return (fib(k) / 10.0.pow(lengthDifference)).toInt() % 10
+}
 

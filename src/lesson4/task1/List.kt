@@ -123,7 +123,7 @@ fun buildSumExample(list: List<Int>) = list.joinToString(separator = " + ", post
 fun abs(v: List<Double>): Double {
     var vectorLength = 0.0
     for (element in v) {
-        vectorLength = (vectorLength + sqr(element))
+        vectorLength += sqr(element)
     }
     return sqrt(vectorLength)
 }
@@ -133,10 +133,7 @@ fun abs(v: List<Double>): Double {
  *
  * Рассчитать среднее арифметическое элементов списка list. Вернуть 0.0, если список пуст
  */
-fun mean(list: List<Double>): Double {
-    if (list.isEmpty()) return 0.0
-    else return list.sum() / list.size
-}
+fun mean(list: List<Double>): Double = list.sum() / list.size
 
 
 /**
@@ -166,14 +163,14 @@ fun center(list: MutableList<Double>): MutableList<Double> {
  * C = a1b1 + a2b2 + ... + aNbN. Произведение пустых векторов считать равным 0.
  */
 fun times(a: List<Int>, b: List<Int>): Int {
-    val result = mutableListOf<Int>()
-    if (a.isEmpty() || b.isEmpty()) return 0
+    var result = 0
+    if (a.isEmpty()) return 0
     else for (i in a.indices) {
 
-        result.add(a[i] * b[i])
+        result += a[i] * b[i]
     }
-    return result.sum()
 
+    return result
 }
 
 /**
@@ -185,15 +182,13 @@ fun times(a: List<Int>, b: List<Int>): Int {
  * Значение пустого многочлена равно 0 при любом x.
  */
 fun polynom(p: List<Int>, x: Int): Int {
-    val multiplier = mutableListOf<Int>()
-    val result = mutableListOf<Int>()
+
+    var result = 0
     for (i in p.indices)
 
-        multiplier.add(x.toDouble().pow(i.toDouble()).toInt())
-    for (i in p.indices)
-        result.add(p[i] * multiplier[i])
-    return result.sum()
+        result += p[i] * x.toDouble().pow(i.toDouble()).toInt()
 
+    return result
 }
 
 /**
@@ -207,8 +202,7 @@ fun polynom(p: List<Int>, x: Int): Int {
  * Обратите внимание, что данная функция должна изменять содержание списка list, а не его копии.
  */
 fun accumulate(list: MutableList<Int>): MutableList<Int> {
-    if (list.size == 1) return list
-    else for (i in 1 until list.size)
+    for (i in 1 until list.size)
         list[i] = list[i - 1] + list[i]
     return list
 }
@@ -224,15 +218,16 @@ fun factorize(n: Int): List<Int> {
 
     var count = n
     val result = mutableListOf<Int>()
-    var div: Int
-    while (count > 1) {
-        div = minDivisor(count)
-        if (isPrime(div))
+    var div = 2
+    if (isPrime(count))
+        result.add(count)
+    else while (count > 1) {
+        if (count % div == 0) {
             result.add(div)
-        count /= div
-
+            count /= div
+        } else div += 1
     }
-    return result.sorted()
+    return result
 }
 
 /**
@@ -242,11 +237,7 @@ fun factorize(n: Int): List<Int> {
  * Результат разложения вернуть в виде строки, например 75 -> 3*5*5
  * Множители в результирующей строке должны располагаться по возрастанию.
  */
-fun factorizeToString(n: Int): String {
-    var list = mutableListOf<Int>()
-    list = factorize(n) as MutableList<Int>
-    return list.joinToString(separator = "*")
-}
+fun factorizeToString(n: Int): String = factorize(n).joinToString(separator = "*")
 
 /**
  * Средняя
