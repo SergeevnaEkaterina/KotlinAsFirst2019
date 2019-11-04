@@ -276,10 +276,9 @@ fun squareSequenceDigit(n: Int): Int {
 fun fibSequenceDigit(n: Int): Int {
     var length = 0
     var k = 1
-
     while (length < n) {
         length += digitNumber(fib(k))
-        k = k + 1
+        k += 1
     }
     val lengthDifference = length - n
     k -= 1
