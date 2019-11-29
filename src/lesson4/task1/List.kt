@@ -133,7 +133,10 @@ fun abs(v: List<Double>): Double {
  *
  * Рассчитать среднее арифметическое элементов списка list. Вернуть 0.0, если список пуст
  */
-fun mean(list: List<Double>): Double = list.sum() / list.size
+fun mean(list: List<Double>): Double {
+    return if (list.isEmpty()) 0.0
+    else list.sum() / list.size
+}
 
 
 /**
@@ -146,11 +149,8 @@ fun mean(list: List<Double>): Double = list.sum() / list.size
  */
 fun center(list: MutableList<Double>): MutableList<Double> {
     val average = mean(list)
-    if (list.isEmpty()) return list
-    else {
-        for (i in 0 until list.size) {
-            list[i] = list[i] - average
-        }
+    for (i in 0 until list.size) {
+        list[i] = list[i] - average
     }
     return list
 }
@@ -164,9 +164,7 @@ fun center(list: MutableList<Double>): MutableList<Double> {
  */
 fun times(a: List<Int>, b: List<Int>): Int {
     var result = 0
-    if (a.isEmpty()) return 0
-    else for (i in a.indices) {
-
+    for (i in a.indices) {
         result += a[i] * b[i]
     }
 
@@ -301,4 +299,4 @@ fun roman(n: Int): String = TODO()
  * Например, 375 = "триста семьдесят пять",
  * 23964 = "двадцать три тысячи девятьсот шестьдесят четыре"
  */
-fun russian(n: Int): String = TODO()
+fun russian(n: Int): String =TODO()
