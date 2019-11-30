@@ -2,8 +2,6 @@
 
 package lesson5.task1
 
-import java.lang.Integer.min
-
 /**
  * Пример
  *
@@ -147,10 +145,10 @@ fun containsIn(a: Map<String, String>, b: Map<String, String>): Boolean {
  *   subtractOf(a = mutableMapOf("a" to "z"), mapOf("a" to "z"))
  *     -> a changes to mutableMapOf() aka becomes empty
  */
-fun subtractOf(a: MutableMap<String, String>, b: Map<String, String>): Unit {
+fun subtractOf(a: MutableMap<String, String>, b: Map<String, String>) {
     val namesToRemove = mutableListOf<String>()
     for ((key, value) in b) {
-        if (a[key] == b[key] && a[value] == b[value])
+        if (a[key] == value)
             namesToRemove.add(key)
     }
     for (key in namesToRemove) {
@@ -168,8 +166,8 @@ fun subtractOf(a: MutableMap<String, String>, b: Map<String, String>): Unit {
 fun whoAreInBoth(a: List<String>, b: List<String>): List<String> {
     var res = mutableListOf<String>()
     for (element in a) {
-        if (element in a == element in b) {
-            res = (res + element).toMutableList()
+        if (element in b && element !in res) {
+            res.add(element)
         }
     }
     return res
@@ -222,7 +220,7 @@ fun averageStockPrice(stockPrices: List<Pair<String, Double>>): Map<String, Doub
  *     "печенье"
  *   ) -> "Мария"
  */
-fun findCheapestStuff(stuff: Map<String, Pair<String, Double>>, kind: String): String? =TODO()
+fun findCheapestStuff(stuff: Map<String, Pair<String, Double>>, kind: String): String? = TODO()
 
 /**
  * Средняя
@@ -233,7 +231,7 @@ fun findCheapestStuff(stuff: Map<String, Pair<String, Double>>, kind: String): S
  * Например:
  *   canBuildFrom(listOf('a', 'b', 'o'), "baobab") -> true
  */
-fun canBuildFrom(chars: List<Char>, word: String): Boolean = TODO()
+fun canBuildFrom(chars: List<Char>, word: String): Boolean =TODO()
 
 
 /**

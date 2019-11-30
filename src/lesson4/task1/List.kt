@@ -299,4 +299,103 @@ fun roman(n: Int): String = TODO()
  * Например, 375 = "триста семьдесят пять",
  * 23964 = "двадцать три тысячи девятьсот шестьдесят четыре"
  */
-fun russian(n: Int): String =TODO()
+fun russian(n: Int): String {
+    var result = ""
+    if (n / 1000 > 0) {
+        result += convert(n)
+    }
+    result += convert(n % 1000)
+    return result.trim()
+}
+
+fun convert(n: Int): String {
+    var number = n
+    var result = ""
+    val hasThousands: Boolean = n / 1000 > 0
+    if (hasThousands) {
+        number /= 1000
+    }
+    val unit = number % 10
+    val tens = number / 10 % 10
+    val hundred = number / 10 / 10
+    if (hundred > 0) {
+        result += decode(hundred * 100) + " "
+    }
+    if (tens > 0) {
+        if (tens == 1) {
+            result += decode(tens * 10 + unit) + " "
+            if (hasThousands && !result.contains("тысяч")) {
+                result += "тысяч "
+            }
+            return result
+        } else {
+            result += decode(tens * 10) + " "
+        }
+    }
+    if (hasThousands) {
+        if (unit > 2) {
+            result += decode(unit) + " "
+        }
+        result += decode(1000 * unit)
+        if (!result.endsWith(" ")) {
+            result += " ";
+        }
+        if ((tens > 0 || hundred > 0) && !result.contains("тысяч")) {
+            result += "тысяч "
+        }
+    } else {
+        result += decode(unit) + " "
+    }
+    return result
+}
+
+fun decode(n: Int): String {
+    when (n) {
+        0 -> return ""
+        1 -> return "один"
+        2 -> return "два"
+        3 -> return "три"
+        4 -> return "четыре"
+        5 -> return "пять"
+        6 -> return "шесть"
+        7 -> return "семь"
+        8 -> return "восемь"
+        9 -> return "девять"
+        10 -> return "десять"
+        11 -> return "одиннадцать"
+        12 -> return "двенадцать"
+        13 -> return "тринадцать"
+        14 -> return "четырнадцать"
+        15 -> return "пятнадцать"
+        16 -> return "шестнадцать"
+        17 -> return "семнадцать"
+        18 -> return "восемнадцать"
+        19 -> return "девятнадцать"
+        20 -> return "двадцать"
+        30 -> return "тридцать"
+        40 -> return "сорок"
+        50 -> return "пятьдесят"
+        60 -> return "шестьдесят"
+        70 -> return "семьдесят"
+        80 -> return "восемьдесят"
+        90 -> return "девяносто"
+        100 -> return "сто"
+        200 -> return "двести"
+        300 -> return "триста"
+        400 -> return "четыреста"
+        500 -> return "пятьсот"
+        600 -> return "шестьсот"
+        700 -> return "семьсот"
+        800 -> return "восемьсот"
+        900 -> return "девятьсот"
+        1000 -> return "одна тысяча"
+        2000 -> return "две тысячи"
+        else -> {
+            if (n in 2001..4999) {
+                return "тысячи"
+            }
+            return "тысяч"
+        }
+    }
+}
+
