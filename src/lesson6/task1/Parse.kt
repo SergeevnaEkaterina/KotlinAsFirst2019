@@ -98,16 +98,11 @@ fun dateStrToDigit(str: String): String {
         month < 10 -> "0$month"
         else -> month
     }
-    result += "." + when {
-        year > 999 -> year
-        year == 0 -> "0000"
-        year < 10 -> "000$year"
-        year < 100 -> "00$year"
-        year < 1000 -> "0$year"
-        else -> return ""
-    }
+    result += "." + year
+
     return result
 }
+
 fun translateMonth(month: String): Int {
     when (month) {
         "января" -> return 1
@@ -127,6 +122,7 @@ fun translateMonth(month: String): Int {
         }
     }
 }
+
 /**
  * Средняя
  *
@@ -137,7 +133,59 @@ fun translateMonth(month: String): Int {
  * Обратите внимание: некорректная с точки зрения календаря дата (например, 30 февраля 2009) считается неверными
  * входными данными.
  */
-fun dateDigitToStr(digital: String): String = TODO()
+fun dateDigitToStr(digital: String): String {
+    var result = ""
+    val arr = digital.split(" ")
+    val day: Int
+    try {
+        day = arr[0].toInt()
+    } catch (e: NumberFormatException) {
+        return ""
+    }
+    if (arr.size != 3 || day < 1 || day > 31)
+        return ""
+    result += when {
+        arr[0].length == 1 -> "0" + arr[0]
+        arr[0].length == 2 -> arr[0]
+        else -> return ""
+    }
+    val month = ConvertMonth(arr[1])
+    if ((month != "января" && month != "февраля" && month != "марта" && month != "апреля" && month != "июня"
+                && month != "июля" && month != "августа" && month != "сентября" && month != "октября" && month != "ноября"
+                && month != "декабря" && month != "мая") || ((month == "февраля" && month == "апреля" && month == "июня" && month == "сентября" && month == "ноября")
+                && day == 31 || month == "февраля" && day > 29)
+    )
+        return ""
+    val year = arr[2].toInt()
+    if (month == "февраля" && (year % 4 != 0 || year % 100 == 0 && year % 400 != 0) && day > 28)
+        return ""
+    result += ".$month"
+
+    result += "." + year
+    return result
+
+}
+
+fun ConvertMonth(month: String): String {
+    when (month) {
+        "01" -> return "января"
+        "02" -> return "февраля"
+        "03" -> return "марта"
+        "04" -> return "апреля"
+        "05" -> return "мая"
+        "06" -> return "июня"
+        "07" -> return "июля"
+        "08" -> return "августа"
+        "09" -> return "сентября"
+        "10" -> return "октября"
+        "11" -> return "ноября"
+        "12" -> return "декабря"
+
+        else -> {
+            return "-1"
+        }
+    }
+}
 
 /**
  * Средняя
