@@ -135,7 +135,7 @@ fun translateMonth(month: String): Int {
  */
 fun dateDigitToStr(digital: String): String {
     var result = ""
-    val arr = digital.split(" ")
+    val arr = digital.split(".")
     val day: Int
     try {
         day = arr[0].toInt()
@@ -145,8 +145,8 @@ fun dateDigitToStr(digital: String): String {
     if (arr.size != 3 || day < 1 || day > 31)
         return ""
     result += when {
-        arr[0].length == 1 -> "0" + arr[0]
-        arr[0].length == 2 -> arr[0]
+        arr[0].length == 1 || arr[0].length == 2-> arr[0].toInt()
+
         else -> return ""
     }
     val month = ConvertMonth(arr[1])
@@ -159,9 +159,8 @@ fun dateDigitToStr(digital: String): String {
     val year = arr[2].toInt()
     if (month == "февраля" && (year % 4 != 0 || year % 100 == 0 && year % 400 != 0) && day > 28)
         return ""
-    result += ".$month"
-
-    result += "." + year
+    result += " " + month
+    result += " " + year
     return result
 
 }
