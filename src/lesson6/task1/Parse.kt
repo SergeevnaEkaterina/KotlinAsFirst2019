@@ -69,7 +69,64 @@ fun main() {
  * Обратите внимание: некорректная с точки зрения календаря дата (например, 30.02.2009) считается неверными
  * входными данными.
  */
-fun dateStrToDigit(str: String): String =TODO()
+fun dateStrToDigit(str: String): String {
+    var result = ""
+    val arr = str.split(" ")
+    val day: Int
+    try {
+        day = arr[0].toInt()
+    } catch (e: NumberFormatException) {
+        return ""
+    }
+    if (arr.size != 3 || day < 1 || day > 31)
+        return ""
+    result += when {
+        arr[0].length == 1 -> "0" + arr[0]
+        arr[0].length == 2 -> arr[0]
+        else -> return ""
+    }
+    val month = translateMonth(arr[1])
+    if (month == -1 || (month < 7 && month % 2 == 0 && day == 31
+                || month > 7 && month % 2 != 0 && day == 31
+                || month == 2 && day > 29)
+    )
+        return ""
+    val year = arr[2].toInt()
+    if (month == 2 && (year % 4 != 0 || year % 100 == 0 && year % 400 != 0) && day > 28)
+        return ""
+    result += "." + when {
+        month < 10 -> "0$month"
+        else -> month
+    }
+    result += "." + when {
+        year > 999 -> year
+        year == 0 -> "0000"
+        year < 10 -> "000$year"
+        year < 100 -> "00$year"
+        year < 1000 -> "0$year"
+        else -> return ""
+    }
+    return result
+}
+fun translateMonth(month: String): Int {
+    when (month) {
+        "января" -> return 1
+        "февраля" -> return 2
+        "марта" -> return 3
+        "апреля" -> return 4
+        "мая" -> return 5
+        "июня" -> return 6
+        "июля" -> return 7
+        "августа" -> return 8
+        "сентября" -> return 9
+        "октября" -> return 10
+        "ноября" -> return 11
+        "декабря" -> return 12
+        else -> {
+            return -1
+        }
+    }
+}
 /**
  * Средняя
  *
