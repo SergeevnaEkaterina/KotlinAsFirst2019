@@ -152,8 +152,8 @@ fun dateDigitToStr(digital: String): String {
     val month = ConvertMonth(arr[1])
     if ((month != "января" && month != "февраля" && month != "марта" && month != "апреля" && month != "июня"
                 && month != "июля" && month != "августа" && month != "сентября" && month != "октября" && month != "ноября"
-                && month != "декабря" && month != "мая") || ((month == "февраля" && month == "апреля" && month == "июня" && month == "сентября" && month == "ноября")
-                && day == 31 || month == "февраля" && day > 29)
+                && month != "декабря" && month != "мая") || ((month == "февраля" || month == "апреля" || month == "июня" || month == "сентября" || month == "ноября")
+                && day == 31 || (month == "февраля" && day > 29))
     )
         return ""
     val year = arr[2].toInt()
