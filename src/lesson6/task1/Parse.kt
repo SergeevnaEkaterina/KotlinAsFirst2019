@@ -2,6 +2,8 @@
 
 package lesson6.task1
 
+import lesson2.task2.daysInMonth
+
 /**
  * Пример
  *
@@ -69,38 +71,39 @@ fun main() {
  * Обратите внимание: некорректная с точки зрения календаря дата (например, 30.02.2009) считается неверными
  * входными данными.
  */
+
 fun dateStrToDigit(str: String): String {
-    var result = ""
+    var result = StringBuilder()
     val arr = str.split(" ")
     val day: Int
-    try {
-        day = arr[0].toInt()
-    } catch (e: NumberFormatException) {
-        return ""
-    }
+    day = arr[0].toIntOrNull()!!
     if (arr.size != 3 || day < 1 || day > 31)
         return ""
-    result += when {
-        arr[0].length == 1 -> "0" + arr[0]
-        arr[0].length == 2 -> arr[0]
-        else -> return ""
-    }
+    result.append(
+        when {
+            arr[0].length == 1 -> "0" + arr[0]
+            arr[0].length == 2 -> arr[0]
+            else -> return ""
+        }
+    )
     val month = translateMonth(arr[1])
     if (month == -1 || (month < 7 && month % 2 == 0 && day == 31
                 || month > 7 && month % 2 != 0 && day == 31
                 || month == 2 && day > 29)
     )
         return ""
-    val year = arr[2].toInt()
+    val year = arr[2].toIntOrNull()!!
     if (month == 2 && (year % 4 != 0 || year % 100 == 0 && year % 400 != 0) && day > 28)
         return ""
-    result += "." + when {
-        month < 10 -> "0$month"
-        else -> month
-    }
-    result += "." + year
+    result.append(".").append(
+        when {
+            month < 10 -> "0$month"
+            else -> month
+        }
+    )
+    result.append(".$year")
 
-    return result
+    return result.trim().toString()
 }
 
 fun translateMonth(month: String): Int {
@@ -134,22 +137,18 @@ fun translateMonth(month: String): Int {
  * входными данными.
  */
 fun dateDigitToStr(digital: String): String {
-    var result = ""
+    var result = StringBuilder()
     val arr = digital.split(".")
     val day: Int
     try {
-        day = arr[0].toInt()
+        day = arr[0].toIntOrNull()!!
     } catch (e: NumberFormatException) {
         return ""
     }
     if (arr.size != 3 || day < 1 || day > 31)
         return ""
-    result += when {
-        arr[0].length == 1 || arr[0].length == 2-> arr[0].toInt()
-
-        else -> return ""
-    }
-    val month = ConvertMonth(arr[1])
+    result.append(day)
+    val month = convertMonth(arr[1])
     if ((month != "января" && month != "февраля" && month != "марта" && month != "апреля" && month != "июня"
                 && month != "июля" && month != "августа" && month != "сентября" && month != "октября" && month != "ноября"
                 && month != "декабря" && month != "мая") || ((month == "февраля" || month == "апреля" || month == "июня" || month == "сентября" || month == "ноября")
@@ -159,13 +158,13 @@ fun dateDigitToStr(digital: String): String {
     val year = arr[2].toInt()
     if (month == "февраля" && (year % 4 != 0 || year % 100 == 0 && year % 400 != 0) && day > 28)
         return ""
-    result += " " + month
-    result += " " + year
-    return result
+    result.append(" $month")
+    result.append(" $year")
+    return result.trim().toString()
 
 }
 
-fun ConvertMonth(month: String): String {
+fun convertMonth(month: String): String {
     when (month) {
         "01" -> return "января"
         "02" -> return "февраля"
@@ -247,7 +246,19 @@ fun plusMinus(expression: String): Int = TODO()
  * Вернуть индекс начала первого повторяющегося слова, или -1, если повторов нет.
  * Пример: "Он пошёл в в школу" => результат 9 (индекс первого 'в')
  */
-fun firstDuplicateIndex(str: String): Int = TODO()
+fun firstDuplicateIndex(str: String): Int {
+    val arr = str.toLowerCase().split(" ")
+    var currentIndex = 0
+    var res = 0
+    for (i in 0 until arr.size - 1) {
+        if (arr[i] != arr[i + 1]) {
+            currentIndex += arr[i].length + 1
+        } else res = currentIndex
+    }
+    return if (currentIndex == arr.size - 1) -1
+    else res
+}
+
 
 /**
  * Сложная

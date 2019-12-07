@@ -250,6 +250,8 @@ fun hasDifferentDigits(n: Int): Boolean = TODO()
  * Использовать операции со строками в этой задаче запрещается.
  */
 
+
+
 fun squareSequenceDigit(n: Int): Int {
     var length = 0
     var k = 1

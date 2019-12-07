@@ -217,9 +217,7 @@ fun factorize(n: Int): List<Int> {
     var count = n
     val result = mutableListOf<Int>()
     var div = 2
-    if (isPrime(count))
-        result.add(count)
-    else while (count > 1) {
+    while (count > 1) {
         if (count % div == 0) {
             result.add(div)
             count /= div
@@ -300,17 +298,17 @@ fun roman(n: Int): String = TODO()
  * 23964 = "двадцать три тысячи девятьсот шестьдесят четыре"
  */
 fun russian(n: Int): String {
-    var result = ""
+    var result = StringBuilder()
     if (n / 1000 > 0) {
-        result += convert(n)
+        result.append(convert(n))
     }
-    result += convert(n % 1000)
-    return result.trim()
+    result.append(convert(n % 1000))
+    return result.trim().toString()
 }
 
 fun convert(n: Int): String {
     var number = n
-    var result = ""
+    var result = StringBuilder()
     val hasThousands: Boolean = n / 1000 > 0
     if (hasThousands) {
         number /= 1000
@@ -319,34 +317,34 @@ fun convert(n: Int): String {
     val tens = number / 10 % 10
     val hundred = number / 10 / 10
     if (hundred > 0) {
-        result += decode(hundred * 100) + " "
+        result.append(decode(hundred * 100)).append(" ")
     }
     if (tens > 0) {
         if (tens == 1) {
-            result += decode(tens * 10 + unit) + " "
+            result.append(decode(tens * 10 + unit)).append(" ")
             if (hasThousands && !result.contains("тысяч")) {
-                result += "тысяч "
+                result.append("тысяч ")
             }
-            return result
+            return result.toString()
         } else {
-            result += decode(tens * 10) + " "
+            result.append(decode(tens * 10)).append(" ")
         }
     }
     if (hasThousands) {
         if (unit > 2) {
-            result += decode(unit) + " "
+            result.append(decode(unit)).append(" ")
         }
-        result += decode(1000 * unit)
+        result.append(decode(1000 * unit))
         if (!result.endsWith(" ")) {
-            result += " ";
+            result.append(" ")
         }
         if ((tens > 0 || hundred > 0) && !result.contains("тысяч")) {
-            result += "тысяч "
+            result.append("тысяч ")
         }
     } else {
-        result += decode(unit) + " "
+        result.append(decode(unit)).append(" ")
     }
-    return result
+    return result.toString()
 }
 
 fun decode(n: Int): String {

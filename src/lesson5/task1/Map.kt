@@ -98,7 +98,7 @@ fun buildGrades(grades: Map<String, Int>): Map<Int, List<String>> {
             val list = map[value]
             list?.add(key)
             if (list != null) {
-                map[value] = list.toMutableList()
+                map[value] = list
             }
         } else {
             map[value] = mutableListOf(key)
@@ -118,16 +118,12 @@ fun buildGrades(grades: Map<String, Int>): Map<Int, List<String>> {
  *   containsIn(mapOf("a" to "z"), mapOf("a" to "zee", "b" to "sweet")) -> false
  */
 fun containsIn(a: Map<String, String>, b: Map<String, String>): Boolean {
-    var a = a.toMutableMap()
-    val namesToRemove = mutableListOf<String>()
+    val a = a.toMutableMap()
     for ((key, value) in a) {
-        if (a[key] == b[key] && a[value] == b[value])
-            namesToRemove.add(key)
+        if (a[key] != b[key] || a.getOrDefault(key, value) != b.getOrDefault(key, value))
+            return false
     }
-    for (key in namesToRemove) {
-        a.remove(key)
-    }
-    return a.isEmpty()
+    return true
 }
 
 
@@ -146,13 +142,9 @@ fun containsIn(a: Map<String, String>, b: Map<String, String>): Boolean {
  *     -> a changes to mutableMapOf() aka becomes empty
  */
 fun subtractOf(a: MutableMap<String, String>, b: Map<String, String>) {
-    val namesToRemove = mutableListOf<String>()
     for ((key, value) in b) {
         if (a[key] == value)
-            namesToRemove.add(key)
-    }
-    for (key in namesToRemove) {
-        a.remove(key)
+            a.remove(key)
     }
 }
 
@@ -164,9 +156,9 @@ fun subtractOf(a: MutableMap<String, String>, b: Map<String, String>) {
  * т. е. whoAreInBoth(listOf("Марат", "Семён, "Марат"), listOf("Марат", "Марат")) == listOf("Марат")
  */
 fun whoAreInBoth(a: List<String>, b: List<String>): List<String> {
-    var res = mutableListOf<String>()
-    for (element in a) {
-        if (element in b && element !in res) {
+    val res = mutableListOf<String>()
+    for (element in a.toSet()) {
+        if (element in b.toSet() && element !in res) {
             res.add(element)
         }
     }
@@ -220,7 +212,7 @@ fun averageStockPrice(stockPrices: List<Pair<String, Double>>): Map<String, Doub
  *     "печенье"
  *   ) -> "Мария"
  */
-fun findCheapestStuff(stuff: Map<String, Pair<String, Double>>, kind: String): String? =TODO()
+fun findCheapestStuff(stuff: Map<String, Pair<String, Double>>, kind: String): String? = TODO()
 
 /**
  * Средняя
@@ -231,12 +223,10 @@ fun findCheapestStuff(stuff: Map<String, Pair<String, Double>>, kind: String): S
  * Например:
  *   canBuildFrom(listOf('a', 'b', 'o'), "baobab") -> true
  */
-fun canBuildFrom(chars: List<Char>, word: String): Boolean {
-        val word = word.toLowerCase().toSet()
-        val char = chars.joinToString(separator = " ").toLowerCase().toSet()
-    if(chars.isNotEmpty())
-        return word.intersect(char) == word
 
+fun canBuildFrom(chars: List<Char>, word: String): Boolean {
+    val word = word.toLowerCase().toSet()
+    val char = chars.joinToString(separator = " ").toLowerCase().toSet()
     return word.intersect(char) == word
 }
 
@@ -256,18 +246,11 @@ fun canBuildFrom(chars: List<Char>, word: String): Boolean {
 fun extractRepeats(list: List<String>): Map<String, Int> {
     val map: MutableMap<String, Int> = mutableMapOf()
     for (item in list) {
-        if (map.containsKey(item)) {
-            map[item] = map[item]!! + 1
-        } else {
-            map[item] = 1
-        }
+        map[item] = map.getOrDefault(item, 0) + 1
     }
-    for ((key, value) in map) {
-
-        return map.filter { it.value > 1 }
-    }
-    return map
+    return map.filter { it.value > 1 }
 }
+
 
 /**
  * Средняя
@@ -323,7 +306,21 @@ fun propagateHandshakes(friends: Map<String, Set<String>>): Map<String, Set<Stri
  *   findSumOfTwo(listOf(1, 2, 3), 4) -> Pair(0, 2)
  *   findSumOfTwo(listOf(1, 2, 3), 6) -> Pair(-1, -1)
  */
-fun findSumOfTwo(list: List<Int>, number: Int): Pair<Int, Int> = TODO()
+fun findSumOfTwo(list: List<Int>, number: Int): Pair<Int, Int> {
+    var res = 0 to 0
+    for (i in 0..list.size - 2) {
+        for (j in 1..list.size - 1) {
+            if (list[i] + list[j] == number && i != j) {
+                res = i to j
+            }
+        }
+    }
+    if (res == 0 to 0) {
+        res = -1 to -1
+    }
+    return res
+
+}
 
 /**
  * Очень сложная
