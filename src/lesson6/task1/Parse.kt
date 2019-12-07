@@ -102,10 +102,9 @@ fun dateStrToDigit(str: String): String {
         }
     )
     result.append(".$year")
-
-    return result.trim().toString()
+if(result.trim().toString()=="") return ""
+    else return result.trim().toString()
 }
-
 fun translateMonth(month: String): Int {
     when (month) {
         "января" -> return 1
@@ -160,7 +159,8 @@ fun dateDigitToStr(digital: String): String {
         return ""
     result.append(" $month")
     result.append(" $year")
-    return result.trim().toString()
+    if(result.trim().toString()=="") return ""
+    else return result.trim().toString()
 
 }
 
