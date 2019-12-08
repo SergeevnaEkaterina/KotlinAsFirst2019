@@ -73,7 +73,7 @@ fun main() {
  */
 
 fun dateStrToDigit(str: String): String {
-    var result = StringBuilder()
+    val result = StringBuilder()
     val arr = str.split(" ")
     val day: Int
     day = arr[0].toIntOrNull()!!
@@ -137,7 +137,7 @@ fun translateMonth(month: String): Int {
  * входными данными.
  */
 fun dateDigitToStr(digital: String): String {
-    var result = StringBuilder()
+    val result = StringBuilder()
     val arr = digital.split(".")
     val day: Int
     try {
@@ -256,7 +256,7 @@ fun firstDuplicateIndex(str: String): Int {
             currentIndex += arr[i].length + 1
         } else res = currentIndex
     }
-    return if (currentIndex == arr.size - 1 || currentIndex==0) -1
+    return if (currentIndex == arr.size - 1 || currentIndex == 0) -1
     else res
 }
 
@@ -272,7 +272,27 @@ fun firstDuplicateIndex(str: String): Int {
  * или пустую строку при нарушении формата строки.
  * Все цены должны быть больше либо равны нуля.
  */
-fun mostExpensive(description: String): String = TODO()
+fun mostExpensive(description: String): String {
+    var biggestPrice = -10.0
+    var biggestPriceName = ""
+    val listOfItems = description.split("; ")
+    for (i in listOfItems) {
+        val item = i.split(" ")
+        if(item.size != 2) return ""
+        val price = item[1].toDoubleOrNull()
+
+        if (price != null) {
+            if (price < 0.0) return ""
+        }
+        if (price != null) {
+            if (price > biggestPrice) {
+                biggestPrice = price
+                biggestPriceName = item[0]
+            }
+        }
+    }
+    return biggestPriceName
+}
 
 /**
  * Сложная
