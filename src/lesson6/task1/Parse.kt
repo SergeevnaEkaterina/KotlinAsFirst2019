@@ -251,12 +251,14 @@ fun firstDuplicateIndex(str: String): Int {
     val arr = str.toLowerCase().split(" ")
     var currentIndex = 0
     var res = 0
+    var count = 0
     for (i in 0 until arr.size - 1) {
         if (arr[i] != arr[i + 1]) {
             currentIndex += arr[i].length + 1
         } else res = currentIndex
+        count += 1
     }
-    return if (currentIndex == arr.size - 1 || currentIndex == 0) -1
+    return if (currentIndex == arr.size - 1 || (currentIndex==0 && count ==0)) -1
     else res
 }
 
@@ -278,7 +280,7 @@ fun mostExpensive(description: String): String {
     val listOfItems = description.split("; ")
     for (i in listOfItems) {
         val item = i.split(" ")
-        if(item.size != 2) return ""
+        if (item.size != 2) return ""
         val price = item[1].toDoubleOrNull()
 
         if (price != null) {
