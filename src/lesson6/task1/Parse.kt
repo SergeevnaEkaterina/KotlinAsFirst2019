@@ -102,9 +102,10 @@ fun dateStrToDigit(str: String): String {
         }
     )
     result.append(".$year")
-if(result.trim().toString()=="") return ""
+    if (result.trim().toString() == "") return ""
     else return result.trim().toString()
 }
+
 fun translateMonth(month: String): Int {
     when (month) {
         "января" -> return 1
@@ -159,7 +160,7 @@ fun dateDigitToStr(digital: String): String {
         return ""
     result.append(" $month")
     result.append(" $year")
-    if(result.trim().toString()=="") return ""
+    if (result.trim().toString() == "") return ""
     else return result.trim().toString()
 
 }
@@ -255,7 +256,7 @@ fun firstDuplicateIndex(str: String): Int {
             currentIndex += arr[i].length + 1
         } else res = currentIndex
     }
-    return if (currentIndex == arr.size - 1) -1
+    return if (currentIndex == arr.size - 1 || currentIndex==0) -1
     else res
 }
 
