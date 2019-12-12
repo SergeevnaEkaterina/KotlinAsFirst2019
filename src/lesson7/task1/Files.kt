@@ -126,50 +126,46 @@ fun alignFileByWidth(inputName: String, outputName: String) {
     var maximumLength = 0
     File(outputName).bufferedWriter().use {
         for (item in File(inputName).readLines()) {
-            var length = 0
+            val res = StringBuilder()
             val itemLength = item.trim().split(Regex("""\s+"""))
-            val spaceLength = itemLength.size - 1
             for (i in itemLength) {
-                length += i.length
-                if (maximumLength < length + spaceLength)
-                    maximumLength = length + spaceLength
+                res.append(i)
             }
+            if (maximumLength < res.trim().length)
+                maximumLength = res.trim().length
         }
-    }
-    File(outputName).bufferedWriter().use {
         for (item in File(inputName).readLines()) {
             var length = 0
-            val itemLength = item.trim().split(Regex("""\s+"""))
-            val spaceLength = itemLength.size - 1
-            for (i in itemLength) {
-                length += i.length
-                if (itemLength.size == 1 || itemLength.isEmpty()) {
-                    it.write(i.trim())
-                } else {
-                    val lengthOfFullSpaces = maximumLength - length
-                    val lengthOfOneSpace = lengthOfFullSpaces / spaceLength
-                    val rest = lengthOfFullSpaces % spaceLength
-                    for (k in 0..itemLength.size - 1) {
-                        it.write(itemLength[k])
-                        while (k != length) {
-                            if (k < rest) {
-                                for (f in 1 until lengthOfOneSpace) {
-                                    it.write(" ")
-                                }
-                            } else {
-                                for (f in 1..lengthOfOneSpace) {
-                                    it.write(" ")
-                                }
-                            }
+            val itemLength1 = item.trim().split(Regex("""\s+"""))
+
+            for (i in itemLength1)
+                length += item.length
+            if (itemLength1.size == 1 || itemLength1.isEmpty())
+                it.write(item.trim())
+            else {
+                val lengthOfFullSpaces = maximumLength - length
+                val lengthOfOneSpace = lengthOfFullSpaces / (itemLength1.size - 1)
+                val rest = lengthOfFullSpaces % (itemLength1.size - 1)
+                for (k in itemLength1.indices) {
+                    it.write(itemLength1[k])
+                    if (k != length) {
+                        if (k < rest) {
+                            for (f in 1 until lengthOfOneSpace)
+                                it.write(" ")
+                        } else {
+                            for (f in 1..lengthOfOneSpace)
+                                it.write(" ")
                         }
                     }
-
                 }
-                it.newLine()
+
             }
+            it.newLine()
         }
     }
 }
+
+
 
 
 

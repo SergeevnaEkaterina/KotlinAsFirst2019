@@ -75,10 +75,12 @@ fun main() {
 fun dateStrToDigit(str: String): String {
     val result = StringBuilder()
     val arr = str.split(" ")
-    val day: Int
-    day = arr[0].toIntOrNull()!!
-    if (arr.size != 3 || day < 1 || day > 31)
-        return ""
+    val day = arr[0].toIntOrNull()
+
+    if (day != null) {
+        if (arr.size != 3 || day < 1 || day > 31)
+            return ""
+    }
     result.append(
         when {
             arr[0].length == 1 -> "0" + arr[0]
@@ -87,14 +89,22 @@ fun dateStrToDigit(str: String): String {
         }
     )
     val month = translateMonth(arr[1])
-    if (month == -1 || (month < 7 && month % 2 == 0 && day == 31
-                || month > 7 && month % 2 != 0 && day == 31
-                || month == 2 && day > 29)
-    )
-        return ""
-    val year = arr[2].toIntOrNull()!!
-    if (month == 2 && (year % 4 != 0 || year % 100 == 0 && year % 400 != 0) && day > 28)
-        return ""
+    if (day != null) {
+        if (month == -1 || (month < 7 && month % 2 == 0 && day == 31
+                    || month > 7 && month % 2 != 0 && day == 31
+                    || month == 2 && day > 29)
+        )
+            return ""
+    }
+    val year = arr[2].toIntOrNull()
+    if (year != null) {
+
+        if (day != null) {
+            if (month == 2 && (year % 4 != 0 || year % 100 == 0 && year % 400 != 0) && day > 28)
+                return ""
+        }
+
+    }
     result.append(".").append(
         when {
             month < 10 -> "0$month"
@@ -102,8 +112,7 @@ fun dateStrToDigit(str: String): String {
         }
     )
     result.append(".$year")
-    if (result.trim().toString() == "") return ""
-    else return result.trim().toString()
+       return result.trim().toString()
 }
 
 fun translateMonth(month: String): Int {
@@ -139,25 +148,29 @@ fun translateMonth(month: String): Int {
 fun dateDigitToStr(digital: String): String {
     val result = StringBuilder()
     val arr = digital.split(".")
-    val day: Int
-    try {
-        day = arr[0].toIntOrNull()!!
-    } catch (e: NumberFormatException) {
-        return ""
+
+
+        val day = arr[0].toIntOrNull()
+
+    if (day != null) {
+        if (arr.size != 3 || day < 1 || day > 31)
+            return ""
     }
-    if (arr.size != 3 || day < 1 || day > 31)
-        return ""
     result.append(day)
     val month = convertMonth(arr[1])
-    if ((month != "января" && month != "февраля" && month != "марта" && month != "апреля" && month != "июня"
-                && month != "июля" && month != "августа" && month != "сентября" && month != "октября" && month != "ноября"
-                && month != "декабря" && month != "мая") || ((month == "февраля" || month == "апреля" || month == "июня" || month == "сентября" || month == "ноября")
-                && day == 31 || (month == "февраля" && day > 29))
-    )
-        return ""
+    if (day != null) {
+        if ((month != "января" && month != "февраля" && month != "марта" && month != "апреля" && month != "июня"
+                    && month != "июля" && month != "августа" && month != "сентября" && month != "октября" && month != "ноября"
+                    && month != "декабря" && month != "мая") || ((month == "февраля" || month == "апреля" || month == "июня" || month == "сентября" || month == "ноября")
+                    && day == 31 || (month == "февраля" && day > 29))
+        )
+            return ""
+    }
     val year = arr[2].toInt()
-    if (month == "февраля" && (year % 4 != 0 || year % 100 == 0 && year % 400 != 0) && day > 28)
-        return ""
+    if (day != null) {
+        if (month == "февраля" && (year % 4 != 0 || year % 100 == 0 && year % 400 != 0) && day > 28)
+            return ""
+    }
     result.append(" $month")
     result.append(" $year")
     if (result.trim().toString() == "") return ""
