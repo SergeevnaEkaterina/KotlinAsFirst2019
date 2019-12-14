@@ -126,35 +126,38 @@ fun alignFileByWidth(inputName: String, outputName: String) {
     var maximumLength = 0
     File(outputName).bufferedWriter().use {
         for (item in File(inputName).readLines()) {
-            val res = StringBuilder()
             val itemLength = item.trim().split(Regex("""\s+"""))
-            for (i in itemLength) {
-                res.append(i)
-            }
+            val res = StringBuilder()
+            for (i in itemLength)
+                res.append(i).append(" ")
             if (maximumLength < res.trim().length)
                 maximumLength = res.trim().length
         }
         for (item in File(inputName).readLines()) {
             var length = 0
             val itemLength1 = item.trim().split(Regex("""\s+"""))
-
             for (i in itemLength1)
-                length += item.length
-            if (itemLength1.size == 1 || itemLength1.isEmpty())
+                length += i.length
+            var amountOfSpace = itemLength1.size - 1
+            if (itemLength1.size == 1 || itemLength1.size == 0)
                 it.write(item.trim())
             else {
                 val lengthOfFullSpaces = maximumLength - length
-                val lengthOfOneSpace = lengthOfFullSpaces / (itemLength1.size - 1)
-                val rest = lengthOfFullSpaces % (itemLength1.size - 1)
+                val lengthOfOneSpace = lengthOfFullSpaces / amountOfSpace
+                val prom = lengthOfOneSpace + 1
+                val rest = lengthOfFullSpaces % amountOfSpace
                 for (k in itemLength1.indices) {
                     it.write(itemLength1[k])
-                    if (k != length) {
+                    val space = " "
+                    if (amountOfSpace != k) {
                         if (k < rest) {
-                            for (f in 1 until lengthOfOneSpace)
-                                it.write(" ")
+                            for (g in 1..prom) {
+                                it.write(space)
+                            }
                         } else {
-                            for (f in 1..lengthOfOneSpace)
-                                it.write(" ")
+                            for (g in 1..lengthOfOneSpace) {
+                                it.write(space)
+                            }
                         }
                     }
                 }
@@ -164,9 +167,6 @@ fun alignFileByWidth(inputName: String, outputName: String) {
         }
     }
 }
-
-
-
 
 
 /**

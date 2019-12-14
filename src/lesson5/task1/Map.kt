@@ -97,9 +97,7 @@ fun buildGrades(grades: Map<String, Int>): Map<Int, List<String>> {
         if (map.containsKey(value)) {
             val list = map[value]
             list?.add(key)
-            if (list != null) {
-                map[value] = list
-            }
+
         } else {
             map[value] = mutableListOf(key)
         }
@@ -120,7 +118,7 @@ fun buildGrades(grades: Map<String, Int>): Map<Int, List<String>> {
 fun containsIn(a: Map<String, String>, b: Map<String, String>): Boolean {
     val a = a.toMutableMap()
     for ((key, value) in a) {
-        if (a[key] != b[key] || a.getOrDefault(key, value) != b.getOrDefault(key, value))
+        if (a[key] != b[key])
             return false
     }
     return true
@@ -143,8 +141,8 @@ fun containsIn(a: Map<String, String>, b: Map<String, String>): Boolean {
  */
 fun subtractOf(a: MutableMap<String, String>, b: Map<String, String>) {
     for ((key, value) in b) {
-        if (a[key] == value)
-            a.remove(key)
+
+        a.remove(key, value)
     }
 }
 
@@ -158,7 +156,7 @@ fun subtractOf(a: MutableMap<String, String>, b: Map<String, String>) {
 fun whoAreInBoth(a: List<String>, b: List<String>): List<String> {
     val res = mutableListOf<String>()
     for (element in a.toSet()) {
-        if (element in b.toSet() && element !in res) {
+        if (element in b.toSet()) {
             res.add(element)
         }
     }
