@@ -144,54 +144,54 @@ fun translateMonth(month: String): Int {
  */
 fun dateDigitToStr(digital: String): String {
 
-val result = StringBuilder()
-val arr = digital.split(".")
-val day = arr[0].toIntOrNull()
-val year = arr[2].toIntOrNull()
-if (day != null) {
-if (arr.size != 3 || day < 1 || day > 31)
-return ""
-}
-result.append(day)
-val month = convertMonth(arr[1])
-if (day != null) {
-val prom1 = translateMonth(month)
-if ((arr[1] != "01" && arr[1] != "02" && arr[1] != "03" && arr[1] != "04" && arr[1] != "05" && arr[1] != "06"
-&& arr[1] != "07" && arr[1] != "08" && arr[1] != "09" && arr[1] != "10" && arr[1] != "11" && arr[1] != "12")
-|| day > daysInMonth(prom1, year!!)
-)
-return ""
-}
-if (day != null) {
-if (year != null) {
-if (month == "февраля" && (year % 4 != 0 || year % 100 == 0 && year % 400 != 0) && day > 28)
-return ""
-}
-}
-result.append(" $month")
-result.append(" $year")
-return result.trim().toString()
+    val result = StringBuilder()
+    val arr = digital.split(".")
+    val day = arr[0].toIntOrNull()
+    val year = arr[2].toIntOrNull()
+    if (day != null) {
+        if (arr.size != 3 || day < 1 || day > 31)
+            return ""
+    }
+    result.append(day)
+    val month = convertMonth(arr[1])
+    if (day != null) {
+        val prom1 = translateMonth(month)
+        if ((arr[1] != "01" && arr[1] != "02" && arr[1] != "03" && arr[1] != "04" && arr[1] != "05" && arr[1] != "06"
+                    && arr[1] != "07" && arr[1] != "08" && arr[1] != "09" && arr[1] != "10" && arr[1] != "11" && arr[1] != "12")
+            || day > daysInMonth(prom1, year!!)
+        )
+            return ""
+    }
+    if (day != null) {
+        if (year != null) {
+            if (month == "февраля" && (year % 4 != 0 || year % 100 == 0 && year % 400 != 0) && day > 28)
+                return ""
+        }
+    }
+    result.append(" $month")
+    result.append(" $year")
+    return result.trim().toString()
 }
 
 fun convertMonth(month: String): String {
-when (month) {
-"01" -> return "января"
-"02" -> return "февраля"
-"03" -> return "марта"
-"04" -> return "апреля"
-"05" -> return "мая"
-"06" -> return "июня"
-"07" -> return "июля"
-"08" -> return "августа"
-"09" -> return "сентября"
-"10" -> return "октября"
-"11" -> return "ноября"
-"12" -> return "декабря"
+    when (month) {
+        "01" -> return "января"
+        "02" -> return "февраля"
+        "03" -> return "марта"
+        "04" -> return "апреля"
+        "05" -> return "мая"
+        "06" -> return "июня"
+        "07" -> return "июля"
+        "08" -> return "августа"
+        "09" -> return "сентября"
+        "10" -> return "октября"
+        "11" -> return "ноября"
+        "12" -> return "декабря"
 
-else -> {
-return "-1"
-}
-}
+        else -> {
+            return "-1"
+        }
+    }
 }
 
 /**
@@ -258,16 +258,12 @@ fun plusMinus(expression: String): Int = TODO()
 fun firstDuplicateIndex(str: String): Int {
     val arr = str.toLowerCase().split(" ")
     var currentIndex = 0
-    val res = 0
-    var count = 0
     for (i in 0 until arr.size - 1) {
-        if (arr[i] != arr[i + 1]) {
-            currentIndex += arr[i].length + 1
-        } else return currentIndex
-        count += 1
+        if (arr[i] != arr[i + 1])
+            return currentIndex
+        else currentIndex += arr[i].length + 1
     }
-    return if (currentIndex == arr.size - 1 || (currentIndex == 0 && count == 0)) -1
-    else res
+    return -1
 }
 
 
