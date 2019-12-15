@@ -124,12 +124,13 @@ fun centerFile(inputName: String, outputName: String) {
 
 fun alignFileByWidth(inputName: String, outputName: String) {
     var maximumLength = 0
+    val space = " "
     File(outputName).bufferedWriter().use {
         for (item in File(inputName).readLines()) {
             val itemLength = item.trim().split(Regex("""\s+"""))
             val res = StringBuilder()
             for (i in itemLength)
-                res.append(i).append(" ")
+                res.append(i).append(space)
             if (maximumLength < res.trim().length)
                 maximumLength = res.trim().length
         }
@@ -138,7 +139,7 @@ fun alignFileByWidth(inputName: String, outputName: String) {
             val itemLength1 = item.trim().split(Regex("""\s+"""))
             for (i in itemLength1)
                 length += i.length
-            var amountOfSpace = itemLength1.size - 1
+            val amountOfSpace = itemLength1.size - 1
             if (itemLength1.size == 1 || itemLength1.size == 0)
                 it.write(item.trim())
             else {
@@ -146,22 +147,16 @@ fun alignFileByWidth(inputName: String, outputName: String) {
                 val lengthOfOneSpace = lengthOfFullSpaces / amountOfSpace
                 val prom = lengthOfOneSpace + 1
                 val rest = lengthOfFullSpaces % amountOfSpace
-                for (k in itemLength1.indices) {
+                for (k in 0..itemLength1.size - 1) {
                     it.write(itemLength1[k])
-                    val space = " "
-                    if (amountOfSpace != k) {
-                        if (k < rest) {
-                            for (g in 1..prom) {
+                    if (amountOfSpace != k)
+                        if (k < rest)
+                            for (g in 1..prom)
                                 it.write(space)
-                            }
-                        } else {
-                            for (g in 1..lengthOfOneSpace) {
+                        else
+                            for (g in 1..lengthOfOneSpace)
                                 it.write(space)
-                            }
-                        }
-                    }
                 }
-
             }
             it.newLine()
         }
