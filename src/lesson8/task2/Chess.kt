@@ -2,6 +2,9 @@
 
 package lesson8.task2
 
+import java.lang.Math.abs
+import java.lang.Math.max
+
 /**
  * Клетка шахматной доски. Шахматная доска квадратная и имеет 8 х 8 клеток.
  * Поэтому, обе координаты клетки (горизонталь row, вертикаль column) могут находиться в пределах от 1 до 8.
@@ -140,7 +143,10 @@ fun bishopTrajectory(start: Square, end: Square): List<Square> = TODO()
  * Пример: kingMoveNumber(Square(3, 1), Square(6, 3)) = 3.
  * Король может последовательно пройти через клетки (4, 2) и (5, 2) к клетке (6, 3).
  */
-fun kingMoveNumber(start: Square, end: Square): Int = TODO()
+fun kingMoveNumber(start: Square, end: Square): Int {
+    if (!start.inside() || !end.inside()) throw IllegalArgumentException()
+    else return kotlin.math.abs(end.row - start.row).coerceAtLeast(kotlin.math.abs(end.column - start.column))
+}
 
 /**
  * Сложная
@@ -156,7 +162,27 @@ fun kingMoveNumber(start: Square, end: Square): Int = TODO()
  *          kingTrajectory(Square(3, 5), Square(6, 2)) = listOf(Square(3, 5), Square(4, 4), Square(5, 3), Square(6, 2))
  * Если возможно несколько вариантов самой быстрой траектории, вернуть любой из них.
  */
-fun kingTrajectory(start: Square, end: Square): List<Square> = TODO()
+fun kingTrajectory(start: Square, end: Square): List<Square> {
+    val res = mutableListOf(start)
+    var startColumn = start.column
+    var startRow = start.row
+    if (start == end) return listOf(start)
+    else
+        while (start != end) {
+            if (end.row != startRow) {
+                if (end.row > startRow)
+                    startRow += 1
+                else startRow -= 1
+            }
+            if (end.column != startColumn) {
+                if (end.column > startColumn)
+                    startColumn += 1
+                else startColumn -= 1
+            }
+            res.add(Square(startColumn, startRow))
+        }
+    return res
+}
 
 /**
  * Сложная
