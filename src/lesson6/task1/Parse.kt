@@ -259,7 +259,7 @@ fun firstDuplicateIndex(str: String): Int {
     val arr = str.toLowerCase().split(" ")
     var currentIndex = 0
     for (i in 0 until arr.size - 1) {
-        if (arr[i] != arr[i + 1])
+        if (arr[i] == arr[i + 1])
             return currentIndex
         else currentIndex += arr[i].length + 1
     }
