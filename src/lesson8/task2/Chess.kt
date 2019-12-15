@@ -168,7 +168,7 @@ fun kingTrajectory(start: Square, end: Square): List<Square> {
     var startRow = start.row
     if (start == end) return listOf(start)
     else
-        while (start != end) {
+        while (Square(startColumn, startRow) != end) {
             if (end.row != startRow) {
                 if (end.row > startRow)
                     startRow += 1
