@@ -127,28 +127,25 @@ fun alignFileByWidth(inputName: String, outputName: String) {
     val space = " "
     File(outputName).bufferedWriter().use {
         for (item in File(inputName).readLines()) {
-            val itemLength = item.trim().split(Regex("""\s+"""))
-            val res = StringBuilder()
-            for (i in itemLength)
-                res.append(i).append(space)
-            if (maximumLength < res.trim().length)
-                maximumLength = res.trim().length
+            Regex("""\s+""").replace(item, " ")
+            if (maximumLength < item.trim().length)
+                maximumLength = item.trim().length
         }
         for (item in File(inputName).readLines()) {
             var length = 0
-            val itemLength1 = item.trim().split(Regex("""\s+"""))
-            for (i in itemLength1)
+            val itemLength = item.trim().split(Regex("""\s+"""))
+            for (i in itemLength)
                 length += i.length
-            val amountOfSpace = itemLength1.size - 1
-            if (itemLength1.size == 1 || itemLength1.size == 0)
+            val amountOfSpace = itemLength.size - 1
+            if (itemLength.size == 1 || itemLength.size == 0)
                 it.write(item.trim())
             else {
                 val lengthOfFullSpaces = maximumLength - length
                 val lengthOfOneSpace = lengthOfFullSpaces / amountOfSpace
                 val prom = lengthOfOneSpace + 1
                 val rest = lengthOfFullSpaces % amountOfSpace
-                for (k in 0..itemLength1.size - 1) {
-                    it.write(itemLength1[k])
+                for (k in 0..itemLength.size - 1) {
+                    it.write(itemLength[k])
                     if (amountOfSpace != k)
                         if (k < rest)
                             for (g in 1..prom)

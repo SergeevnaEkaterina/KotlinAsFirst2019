@@ -92,15 +92,9 @@ fun buildWordSet(text: List<String>): MutableSet<String> {
  *     -> mapOf(5 to listOf("Семён", "Михаил"), 3 to listOf("Марат"))
  */
 fun buildGrades(grades: Map<String, Int>): Map<Int, List<String>> {
-    val map: MutableMap<Int, MutableList<String>> = mutableMapOf()
+    val map = mutableMapOf<Int, List<String>>()
     for ((key, value) in grades) {
-        if (map.containsKey(value)) {
-            val list = map[value]
-            list?.add(key)
-
-        } else {
-            map[value] = mutableListOf(key)
-        }
+        map[value] = map.getOrDefault(value, mutableListOf<String>()) + key
     }
     return map
 }
@@ -118,7 +112,7 @@ fun buildGrades(grades: Map<String, Int>): Map<Int, List<String>> {
 fun containsIn(a: Map<String, String>, b: Map<String, String>): Boolean {
     val a = a.toMutableMap()
     for ((key, value) in a) {
-        if (a[key] != b[key])
+        if (value != b[key])
             return false
     }
     return true
@@ -141,7 +135,6 @@ fun containsIn(a: Map<String, String>, b: Map<String, String>): Boolean {
  */
 fun subtractOf(a: MutableMap<String, String>, b: Map<String, String>) {
     for ((key, value) in b) {
-
         a.remove(key, value)
     }
 }
@@ -155,8 +148,10 @@ fun subtractOf(a: MutableMap<String, String>, b: Map<String, String>) {
  */
 fun whoAreInBoth(a: List<String>, b: List<String>): List<String> {
     val res = mutableListOf<String>()
-    for (element in a.toSet()) {
-        if (element in b.toSet()) {
+    val alpha = a.toSet()
+    val beta = b.toSet()
+    for (element in alpha) {
+        if (element in beta) {
             res.add(element)
         }
     }
