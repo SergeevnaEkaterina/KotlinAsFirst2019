@@ -77,9 +77,7 @@ fun dateStrToDigit(str: String): String {
     if (arr.size != 3) return ""
     val day = arr[0].toIntOrNull()
     val year = arr[2].toIntOrNull()
-
-    if (arr[0].length != 1 || arr[0].length != 2) {
-
+    if (arr[0].length != 1 && arr[0].length != 2) {
         return ""
     }
     val month = translateMonth(arr[1])
@@ -90,11 +88,9 @@ fun dateStrToDigit(str: String): String {
             if (month == 2 && (year % 4 != 0 || year % 100 == 0 && year % 400 != 0) && day > 28)
                 return ""
         }
-
     }
-    return String.format("%02d:%02d:%02d", arr[0], month, year)
+    return String.format("%02d.%02d.%d", day, month, year)
 }
-
 fun translateMonth(month: String): Int {
     when (month) {
         "января" -> return 1
