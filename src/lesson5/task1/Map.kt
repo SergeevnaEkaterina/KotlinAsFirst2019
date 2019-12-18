@@ -92,9 +92,14 @@ fun buildWordSet(text: List<String>): MutableSet<String> {
  *     -> mapOf(5 to listOf("Семён", "Михаил"), 3 to listOf("Марат"))
  */
 fun buildGrades(grades: Map<String, Int>): Map<Int, List<String>> {
-    val map = mutableMapOf<Int, List<String>>()
+    val map: MutableMap<Int, MutableList<String>> = mutableMapOf()
     for ((key, value) in grades) {
-        map[value] = map.getOrDefault(value, mutableListOf<String>()) + key
+        val list = map[value]
+        if (list == null) {
+            map[value] = mutableListOf(key)
+        } else {
+            list!!.add(key)
+        }
     }
     return map
 }
@@ -219,7 +224,7 @@ fun findCheapestStuff(stuff: Map<String, Pair<String, Double>>, kind: String): S
 
 fun canBuildFrom(chars: List<Char>, word: String): Boolean {
     val word = word.toLowerCase().toSet()
-    val char = chars.joinToString(separator = " ").toLowerCase().toSet()
+    val char = chars.map { it.toLowerCase() }.toSet()
     return word.intersect(char) == word
 }
 
@@ -302,11 +307,12 @@ fun propagateHandshakes(friends: Map<String, Set<String>>): Map<String, Set<Stri
 fun findSumOfTwo(list: List<Int>, number: Int): Pair<Int, Int> {
     val res = mutableMapOf<Int, Int>()
     for (k in 0..list.size - 1) {
-        if (list[k] in res)
-            return (res.getOrDefault(list[k], 0) to k)
+        val prom = res[list[k]]
+        if (prom != null)
+            return Pair(prom, k)
         else res[number - list[k]] = k
     }
-    return (-1 to -1)
+    return Pair(-1, -1)
 }
 
 /**

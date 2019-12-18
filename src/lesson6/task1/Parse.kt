@@ -73,38 +73,26 @@ fun main() {
  */
 
 fun dateStrToDigit(str: String): String {
-    val result = StringBuilder()
     val arr = str.split(" ")
     if (arr.size != 3) return ""
     val day = arr[0].toIntOrNull()
     val year = arr[2].toIntOrNull()
-    result.append(
-        when (arr[0].length) {
-            1 -> "0" + arr[0]
-            2 -> arr[0]
-            else -> return ""
-        }
-    )
+
+    if (arr[0].length != 1 || arr[0].length != 2) {
+
+        return ""
+    }
     val month = translateMonth(arr[1])
     if (year != null) {
         if (day != null) {
             if (day > daysInMonth(month, year) || month == -1)
                 return ""
-        }
-
-        if (day != null) {
             if (month == 2 && (year % 4 != 0 || year % 100 == 0 && year % 400 != 0) && day > 28)
                 return ""
         }
+
     }
-    result.append(".").append(
-        when {
-            month < 10 -> "0$month"
-            else -> month
-        }
-    )
-    result.append(".$year")
-    return result.trim().toString()
+    return String.format("%02d:%02d:%02d", arr[0], month, year)
 }
 
 fun translateMonth(month: String): Int {
@@ -138,27 +126,24 @@ fun translateMonth(month: String): Int {
  * входными данными.
  */
 fun dateDigitToStr(digital: String): String {
-    val result = StringBuilder()
     val arr = digital.split(".")
     if (arr.size != 3) return ""
     val day = arr[0].toIntOrNull()
     val year = arr[2].toIntOrNull()
-    result.append("$day")
     val month = convertMonth(arr[1])
-    if (month == "-1") return ""
+    if (month == "") return ""
     if (day != null) {
         val prom1 = arr[1].toInt()
         if (year != null) {
             if (day > daysInMonth(prom1, year))
                 return ""
-        }
-        if (year != null) {
             if (month == "февраля" && (year % 4 != 0 || year % 100 == 0 && year % 400 != 0) && day > 28)
                 return ""
         }
     }
-    return result.append(" $month").append(" $year").trim().toString()
+    return String.format("%d %s %d", day, month, year)
 }
+
 fun convertMonth(month: String): String {
     when (month) {
         "01" -> return "января"
@@ -174,7 +159,7 @@ fun convertMonth(month: String): String {
         "11" -> return "ноября"
         "12" -> return "декабря"
         else -> {
-            return "-1"
+            return ""
         }
     }
 }
@@ -277,7 +262,7 @@ fun mostExpensive(description: String): String {
                 biggestPrice = price
                 biggestPriceName = item[0]
             }
-        }
+        } else return ""
     }
     return biggestPriceName
 }
